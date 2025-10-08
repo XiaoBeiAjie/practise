@@ -12,31 +12,28 @@ void solve() {
 		if (lo == hi) return ;
 		if ((w[lo] & (1 << msk)) == (w[hi] & (1 << msk))) return dfs(lo, hi, msk - 1), void();
 		int x = 1 << msk;
+		int base = ~((1 << (msk + 1)) - 1);
+		x |= ((lo + l) & base);
 		int cl = x - lo - l;
 		int cr = hi + l - x + 1;
 		if (cl <= cr) {
 			int m = lo + 2 * cl;
 			std::reverse(w.begin() + lo, w.begin() + m);
-			lo = m + 1;
+			lo = m;
 		} else {
 			int m = hi - 2 * cr + 1;
-			std::cerr << m << "!!" << hi << "\n";
-			std::reverse(w.begin() + m, w.begin() + hi);
+			std::reverse(w.begin() + m, w.begin() + hi + 1);
 			hi = m - 1;
 		}
-		std::cerr << cl << " " << cr << "\n";
-		std::cerr << x << "!!\n";
-		for (int i = 0; i < n; i ++ ) 
-			std::cerr << w[i] << " \n"[i == n - 1];
 		dfs(lo, hi, msk - 1);
 	};
 	dfs(0, n - 1, 29);
 	i64 ans = 0;
 	for (int i = 0; i < n; i ++ ) 
 		ans += w[i] | (l + i);
-	std::cerr << ans << "\n";
+	std::cout << ans << "\n";
 	for (int i = 0; i < n; i ++ ) 
-		std::cerr << w[i] << " \n"[i == n - 1];
+		std::cout << w[i] << " \n"[i == n - 1];
 }
 
 int main (void) {
